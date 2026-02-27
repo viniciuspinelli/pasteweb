@@ -1,8 +1,10 @@
-// PasteWeb - Compartilhamento de código entre PCs
-// Aguarda o DOM estar completamente carregado
+// PasteWeb - Debug Version
+console.log('✅ app.js carregado!');
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Elementos do DOM - com verificação de segurança
+    console.log('✅ DOM pronto!');
+    
+    // Elementos do DOM
     const codeInput = document.getElementById('code-input');
     const saveBtn = document.getElementById('save-btn');
     const copyBtn = document.getElementById('copy-btn');
@@ -12,31 +14,47 @@ document.addEventListener('DOMContentLoaded', function() {
     const timestamp = document.getElementById('timestamp');
     const toast = document.getElementById('toast');
     
-    // Verificar se elementos críticos existem
+    // Debug: mostrar elementos encontrados
+    console.log('codeInput:', !!codeInput);
+    console.log('saveBtn:', !!saveBtn);
+    console.log('copyBtn:', !!copyBtn);
+    console.log('savedSection:', !!savedSection);
+    
     if (!codeInput || !saveBtn) {
-        console.error('Elementos essenciais não encontrados!');
+        console.error('❌ Elementos essenciais não encontrados!');
+        alert('Erro: Elementos da página não encontrados. Recarregue a página.');
         return;
     }
     
-    // Carregar código salvo ao iniciar
+    // Carregar código salvo
+    console.log('🔄 Carregando código salvo...');
     loadSavedCode();
     
-    // Event Listeners
-    saveBtn.addEventListener('click', saveCode);
+    // Event Listeners com debug
+    saveBtn.addEventListener('click', function(e) {
+        console.log('🖱️ Botão salvar clicado!');
+        e.preventDefault();
+        saveCode();
+    });
     
     if (copyBtn) {
-        copyBtn.addEventListener('click', copyCode);
+        copyBtn.addEventListener('click', function(e) {
+            console.log('🖱️ Botão copiar clicado!');
+            e.preventDefault();
+            copyCode();
+        });
     }
     
-    // Atalho de teclado: Ctrl+Enter para salvar
+    // Atalho Ctrl+Enter
     codeInput.addEventListener('keydown', function(e) {
         if (e.ctrlKey && e.key === 'Enter') {
             e.preventDefault();
+            console.log('⌨️ Ctrl+Enter pressionado');
             saveCode();
         }
     });
     
-    // Auto-resize textarea
+    // Auto-resize
     codeInput.addEventListener('input', function() {
         this.style.height = 'auto';
         this.style.height = Math.max(250, this.scrollHeight) + 'px';
@@ -44,9 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Função para salvar código
     async function saveCode() {
-        const code = codeInput.value.trim();
+        console.log('💾 Iniciando saveCode...');
         
-        if (!code) {
+        const code = codeInput.value;
+        console.log('Código digitado:', code.substring(0, 50) + '...');
+        
+        if (!code || !code.trim()) {
+            console.log('❌ Código vazio');
             showToast('❌ Por favor, cole um código primeiro!', 'error');
             return;
         }
@@ -57,76 +79,93 @@ document.addEventListener('DOMContentLoaded', function() {
         saveBtn.innerHTML = '💾 Salvando...';
         
         try {
+            console.log('📤 Enviando POST para /api/code...');
+            
             const response = await fetch('/api/code', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ code: code })
+                body: JSON.stringify({ code: code.trim() })
             });
+            
+            console.log('📥 Resposta recebida:', response.status);
             
             if (response.ok) {
                 const data = await response.json();
+                console.log('✅ Dados recebidos:', data);
+                
                 showToast('✅ Código salvo com sucesso!');
                 codeInput.value = '';
                 codeInput.style.height = '250px';
-                displaySavedCode(data.code || code, data.timestamp);
+                displaySavedCode(data.code, data.timestamp);
             } else {
-                throw new Error('Erro ao salvar');
+                const errorText = await response.text();
+                console.error('❌ Erro na resposta:', errorText);
+                throw new Error('Erro ' + response.status + ': ' + errorText);
             }
         } catch (error) {
-            console.error('Erro:', error);
-            showToast('❌ Erro ao salvar. Tente novamente.', 'error');
+            console.error('❌ Erro no fetch:', error);
+            showToast('❌ Erro ao salvar: ' + error.message, 'error');
         } finally {
             saveBtn.disabled = false;
             saveBtn.innerHTML = originalText;
         }
     }
     
-    // Função para carregar código salvo
+    // Função para carregar código
     async function loadSavedCode() {
         try {
+            console.log('🔄 Buscando código em /api/code...');
             const response = await fetch('/api/code');
+            
+            console.log('📥 Status da resposta:', response.status);
             
             if (response.ok) {
                 const data = await response.json();
+                console.log('📋 Dados recebidos:', data);
                 
                 if (data.code && data.code.trim()) {
+                    console.log('✅ Código encontrado, exibindo...');
                     displaySavedCode(data.code, data.timestamp);
+                } else {
+                    console.log('ℹ️ Nenhum código salvo');
                 }
+            } else {
+                console.error('❌ Erro ao carregar:', response.status);
             }
         } catch (error) {
-            console.error('Erro ao carregar código:', error);
+            console.error('❌ Erro no loadSavedCode:', error);
         }
     }
     
-    // Função para exibir código salvo
+    // Função para exibir código
     function displaySavedCode(code, time) {
+        console.log('🎨 Exibindo código...');
+        
         if (!savedSection || !savedCode) {
-            console.error('Elementos de exibição não encontrados');
+            console.error('❌ Elementos de exibição não encontrados');
             return;
         }
         
-        // Esconder empty state se existir
         if (emptyState) {
             emptyState.style.display = 'none';
         }
         
-        // Mostrar seção de código salvo
         savedSection.style.display = 'block';
         
-        // Escapar HTML para exibição segura
         const escapedCode = escapeHtml(code);
         savedCode.innerHTML = '<code>' + escapedCode + '</code>';
         
-        // Atualizar timestamp
         if (timestamp && time) {
             const date = new Date(time);
             timestamp.textContent = 'Salvo em: ' + date.toLocaleString('pt-BR');
         }
+        
+        console.log('✅ Código exibido com sucesso');
     }
     
-    // Função para copiar código
+    // Função para copiar
     async function copyCode() {
         if (!savedCode) return;
         
@@ -136,7 +175,6 @@ document.addEventListener('DOMContentLoaded', function() {
             await navigator.clipboard.writeText(code);
             showToast('📋 Código copiado!');
             
-            // Efeito visual no botão
             if (copyBtn) {
                 const originalText = copyBtn.innerHTML;
                 copyBtn.innerHTML = '✅ Copiado!';
@@ -146,12 +184,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Erro ao copiar:', error);
-            showToast('❌ Erro ao copiar. Selecione manualmente.', 'error');
+            showToast('❌ Erro ao copiar', 'error');
         }
     }
     
-    // Função para mostrar toast
+    // Toast
     function showToast(message, type) {
+        console.log('🍞 Toast:', message);
+        
         if (!toast) {
             alert(message);
             return;
@@ -171,10 +211,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
     
-    // Função para escapar HTML
+    // Escape HTML
     function escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
+    
+    console.log('✅ Tudo inicializado!');
 });
