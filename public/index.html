@@ -3,82 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Site - Deploy no Render</title>
+    <title>PasteWeb - Compartilhar Código</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-container">
-                <a href="#" class="logo">MeuSite</a>
-                <ul class="nav-menu">
-                    <li><a href="#home" class="nav-link">Home</a></li>
-                    <li><a href="#sobre" class="nav-link">Sobre</a></li>
-                    <li><a href="#servicos" class="nav-link">Serviços</a></li>
-                    <li><a href="#contato" class="nav-link">Contato</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <div class="container">
+        <header class="header">
+            <h1>📝 PasteWeb</h1>
+            <p>Cole seu código em um PC e acesse em outro</p>
+        </header>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1>Bem-vindo ao Meu Site</h1>
-                <p>Deploy automático no Render com integração contínua</p>
-                <a href="#sobre" class="cta-button">Saiba Mais</a>
-            </div>
-        </section>
+        <main class="main-content">
+            <!-- Área para colar código -->
+            <section class="paste-section">
+                <div class="input-area">
+                    <label for="code-input">Cole seu código aqui:</label>
+                    <textarea 
+                        id="code-input" 
+                        placeholder="Cole seu código aqui...
 
-        <section id="sobre" class="section">
-            <div class="container">
-                <h2>Sobre o Projeto</h2>
-                <p>Este site está configurado para deployment contínuo no Render. Qualquer push para o repositório vai automaticamente atualizar o site em produção.</p>
-            </div>
-        </section>
-
-        <section id="servicos" class="section section-alt">
-            <div class="container">
-                <h2>Serviços</h2>
-                <div class="cards">
-                    <div class="card">
-                        <h3>Deploy Automático</h3>
-                        <p>Integração contínua com GitHub/GitLab</p>
-                    </div>
-                    <div class="card">
-                        <h3>Serverless</h3>
-                        <p>Infraestrutura gerenciada pelo Render</p>
-                    </div>
-                    <div class="card">
-                        <h3>SSL Grátis</h3>
-                        <p>Certificado HTTPS automático</p>
-                    </div>
+Exemplo:
+function hello() {
+    console.log('Hello World!');
+}"
+                        spellcheck="false"
+                    ></textarea>
+                    <button id="save-btn" class="btn btn-primary">
+                        💾 Salvar Código
+                    </button>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="contato" class="section">
-            <div class="container">
-                <h2>Contato</h2>
-                <p>Entre em contato através do formulário abaixo ou via email.</p>
-                <form id="contact-form">
-                    <input type="text" placeholder="Nome" required>
-                    <input type="email" placeholder="Email" required>
-                    <textarea placeholder="Mensagem" required></textarea>
-                    <button type="submit">Enviar Mensagem</button>
-                </form>
-            </div>
-        </section>
-    </main>
+            <!-- Área onde o código salvo aparece -->
+            <section class="saved-section" id="saved-section" style="display: none;">
+                <div class="saved-header">
+                    <h2>📋 Código Salvo</h2>
+                    <span id="timestamp" class="timestamp"></span>
+                </div>
+                <div class="code-container">
+                    <pre id="saved-code"><code></code></pre>
+                    <button id="copy-btn" class="btn btn-secondary">
+                        📋 Copiar Código
+                    </button>
+                </div>
+            </section>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Meu Site. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+            <!-- Mensagem quando não há código -->
+            <section class="empty-state" id="empty-state">
+                <div class="empty-icon">📭</div>
+                <p>Nenhum código salvo ainda.</p>
+                <p class="hint">Cole um código acima e clique em "Salvar"</p>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>💡 Dica: O código fica disponível para qualquer PC acessar esta página</p>
+        </footer>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
 
     <script src="app.js"></script>
 </body>
