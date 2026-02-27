@@ -4,11 +4,11 @@ FROM node:18-alpine
 # Diretório de trabalho
 WORKDIR /app
 
-# Copiar package.json e package-lock.json primeiro (para cache de dependências)
-COPY package*.json ./
+# Copiar package.json primeiro (para cache de dependências)
+COPY package.json ./
 
-# Instalar dependências
-RUN npm ci --only=production
+# Instalar dependências (usando npm install pois não temos package-lock.json)
+RUN npm install
 
 # Copiar código fonte
 COPY . .
