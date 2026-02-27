@@ -5,15 +5,12 @@ services:
   # Serviço Web Principal
   - type: web
     name: meu-site
-    env: node
+    runtime: docker
     region: oregon
     plan: free
     
     # Configurações de Build
-    buildCommand: "npm install"
-    
-    # Comando para iniciar a aplicação
-    startCommand: "npm start"
+    dockerfilePath: ./Dockerfile
     
     # Variáveis de ambiente
     envVars:
@@ -28,6 +25,3 @@ services:
     
     # Branch para deploy
     branch: main
-    
-    # Runtime
-    runtime: node
