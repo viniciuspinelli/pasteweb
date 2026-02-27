@@ -10,6 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <script>
+        console.log('🌐 Página carregada!');
+        // Verificar se app.js vai carregar
+        window.addEventListener('load', function() {
+            console.log('✅ Página completamente carregada');
+        });
+    </script>
     <div class="container">
         <header class="header">
             <h1>📝 PasteWeb</h1>
@@ -67,6 +74,6 @@ function hello() {
     <!-- Toast notification -->
     <div id="toast" class="toast"></div>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=2"></script>
 </body>
 </html>
