@@ -1,22 +1,23 @@
 {
-  "name": "meu-site-render",
+  "name": "pasteweb",
   "version": "1.0.0",
-  "description": "Site para deploy no Render",
+  "description": "Compartilhe código entre PCs facilmente - Cole em um PC, acesse em outro",
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
-    "build": "echo 'Build completed'"
+    "dev": "nodemon server/index.js"
   },
-  "keywords": ["render", "site", "static"],
-  "author": "Seu Nome",
+  "keywords": [
+    "pastebin",
+    "code-sharing",
+    "snippet",
+    "render",
+    "deploy"
+  ],
+  "author": "viniciuspinelli",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "path": "^0.12.7"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
+    "express": "^4.18.2"
   },
   "engines": {
     "node": ">=14.0.0"
