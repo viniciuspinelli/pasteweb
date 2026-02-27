@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Site - Deploy no Render</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="#" class="logo">MeuSite</a>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#sobre" class="nav-link">Sobre</a></li>
+                    <li><a href="#servicos" class="nav-link">Serviços</a></li>
+                    <li><a href="#contato" class="nav-link">Contato</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Bem-vindo ao Meu Site</h1>
+                <p>Deploy automático no Render com integração contínua</p>
+                <a href="#sobre" class="cta-button">Saiba Mais</a>
+            </div>
+        </section>
+
+        <section id="sobre" class="section">
+            <div class="container">
+                <h2>Sobre o Projeto</h2>
+                <p>Este site está configurado para deployment contínuo no Render. Qualquer push para o repositório vai automaticamente atualizar o site em produção.</p>
+            </div>
+        </section>
+
+        <section id="servicos" class="section section-alt">
+            <div class="container">
+                <h2>Serviços</h2>
+                <div class="cards">
+                    <div class="card">
+                        <h3>Deploy Automático</h3>
+                        <p>Integração contínua com GitHub/GitLab</p>
+                    </div>
+                    <div class="card">
+                        <h3>Serverless</h3>
+                        <p>Infraestrutura gerenciada pelo Render</p>
+                    </div>
+                    <div class="card">
+                        <h3>SSL Grátis</h3>
+                        <p>Certificado HTTPS automático</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contato" class="section">
+            <div class="container">
+                <h2>Contato</h2>
+                <p>Entre em contato através do formulário abaixo ou via email.</p>
+                <form id="contact-form">
+                    <input type="text" placeholder="Nome" required>
+                    <input type="email" placeholder="Email" required>
+                    <textarea placeholder="Mensagem" required></textarea>
+                    <button type="submit">Enviar Mensagem</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Meu Site. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

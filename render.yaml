@@ -1,0 +1,33 @@
+# Render.com Configuration File
+# Este arquivo configura automaticamente seu deploy
+
+services:
+  # Serviço Web Principal
+  - type: web
+    name: meu-site
+    env: node
+    region: oregon
+    plan: free
+    
+    # Configurações de Build
+    buildCommand: "npm install"
+    
+    # Comando para iniciar a aplicação
+    startCommand: "npm start"
+    
+    # Variáveis de ambiente
+    envVars:
+      - key: NODE_ENV
+        value: production
+      
+    # Configurações de health check
+    healthCheckPath: /api/health
+    
+    # Auto-deploy configurações
+    autoDeploy: true
+    
+    # Branch para deploy
+    branch: main
+    
+    # Runtime
+    runtime: node
